@@ -174,9 +174,13 @@ func (s *Service) loadData(ctx context.Context, waitGroup *sync.WaitGroup, reque
 			response.LoadTimeouts++
 			continue
 		}
+		fmt.Printf("\n data in bytes: %s \n", string(data))
 		if request.SourceType == JSON && request.RowType != nil {
+			fmt.Printf("\n data in json: %v\n", string(data))
+			fmt.Printf("\n request.RowType : %v\n", request.RowType)
 			rowPtr := reflect.New(request.RowType).Interface()
 			if err := gojay.Unmarshal(data, rowPtr); err != nil {
+				fmt.Printf("\n unmarshal error : %v\n", err)
 				response.LogError(err)
 				continue
 			}
